@@ -37,8 +37,7 @@ resource "google_compute_region_instance_group_manager" "vault" {
   distribution_policy_zones = ["${var.gcp_region}-a", "${var.gcp_region}-b"]
 
   update_strategy = "${var.instance_group_update_strategy}"
-
-  target_pools = ["${var.instance_group_target_pools}"]
+  target_pools = ["${google_compute_target_pool.default.self_link}"]
   target_size  = "${var.cluster_size}"
 }
 
@@ -223,5 +222,46 @@ resource "google_compute_firewall" "allow_inbound_health_check" {
 
   # Per https://goo.gl/xULu8U, all Google Cloud Health Check requests will be sent from 35.191.0.0/16
   source_ranges = ["35.191.0.0/16"]
+  target_tags   = ["${var.cluster_tag_name}"]
+}
+
+
+# Load Balancer
+resource "google_compute_forwarding_rule" "default" {
+  project               = "${var.gcp_project}"
+  name = "fwd-rle"
+  target                = "${google_compute_target_pool.default.self_link}"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "8200"
+}
+
+resource "google_compute_target_pool" "default" {
+  project          = "${var.gcp_project}"
+  name             = "lbvaulttargetpool"
+  region           = "${var.gcp_region}"
+  session_affinity = "NONE"
+
+  health_checks = [
+    "${google_compute_http_health_check.default.name}",
+  ]
+}
+resource "google_compute_http_health_check" "default" {
+  project      = "${var.gcp_project}"
+  name         = "vault-hc"
+  request_path = "/sys/seal-status"
+  port         = "8200"
+}
+
+resource "google_compute_firewall" "default-lb-fw" {
+  project = "${var.gcp_project}"
+  name    = "firewall-vm-service"
+  network = "${var.network_name}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8200"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
   target_tags   = ["${var.cluster_tag_name}"]
 }

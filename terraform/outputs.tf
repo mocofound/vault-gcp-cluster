@@ -6,6 +6,11 @@ output "instance_group_id" {
   value = "${google_compute_region_instance_group_manager.vault.id}"
 }
 
+output external_ip {
+  description = "The external ip address of the forwarding rule."
+  value       = "${google_compute_forwarding_rule.default.ip_address}"
+}
+
 
 output "instance_group_url" {
   value = "${google_compute_region_instance_group_manager.vault.self_link}"

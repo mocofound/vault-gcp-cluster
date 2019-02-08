@@ -6,6 +6,11 @@ terraform {
   required_version = ">= 0.10.3"
 }
 
+provider "google" {
+  credentials ="${var.gcp_credentials}"
+  region  = "${var.gcp_region}"
+  project = "${var.gcp_project}"
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATES A SERVICE ACCOUNT TO OPERATE THE VAULT CLUSTER

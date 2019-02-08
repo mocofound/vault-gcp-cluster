@@ -8,6 +8,10 @@ variable "gcp_region" {
   default     = "us-west1"
 }
 
+variable "gcp_credentials" {
+  description = "All GCP resources will be launched in this Region."
+}
+
 variable "gcp_project" {
   description = "All GCP resources will be launched in this Region."
   default     = "stenio-project-230417"

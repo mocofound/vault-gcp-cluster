@@ -5,8 +5,9 @@ This repo provides a reference to installing Vault in GCP.
 Demo install: Not production ready, but can be used for PoVs and simple tests
 Prod install: Follows recommended best practices
 
-## Roadmap
+## TODO
 - Use users "consul" and "vault" instead of "root"
+- Fix Load balancer health checks
 - Specify a project for consul retry_join, for future when multiple deployments same gcp org
 - Split Vault and Consul instances
 - Enable Vault TLS
@@ -14,6 +15,10 @@ Prod install: Follows recommended best practices
 - Join Consul clusters across datacenters
 - Enable Vault Performance Replication
 - Update documentation with diagram
+
+## Note
+### Load Balancer
+GCP load balancer works slightly different than other cloud platforms. The external IP is provided by a "forwarding rule", which is associated with a target pool of instances (IPs, scale groups, etc). This target pool is associated with one or more health checks. You can then use firewall rules to allow access to the port/network that the forwarding rule and target pool are deployed. 
 
 ## Requirements
 In order to use this demo, you will need:

@@ -1,6 +1,6 @@
 # Vault-GCP-Cluster
 
-This repo provides a reference to installing Vault in GCP.
+This repo provides a reference to installing Vault in GCP, with cloud auto-unseal.
 
 Demo install: Not production ready, but can be used for PoVs and simple tests
 Prod install: Follows recommended best practices
@@ -70,5 +70,7 @@ terraform plan
 terraform apply
 ```
 
-### Note
-If you clone this repository and host in your public git account, please make sure you do not save your GCP credentials with this code.
+### Notes
+- The Vault token is available in /tmp
+- Terraform destroy wont destroy the keyring, if you get an error message you can just change the name
+- If you clone this repository and host in your public git account, please make sure you do not save your GCP credentials with this code.

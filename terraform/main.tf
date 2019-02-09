@@ -234,7 +234,7 @@ resource "google_compute_forwarding_rule" "default" {
   load_balancing_scheme = "EXTERNAL"
   port_range            = "8200"
 }
-resource "google_compute_forwarding_rule" "default" {
+resource "google_compute_forwarding_rule" "default-lb-consul" {
   project               = "${var.gcp_project}"
   name = "fwd-rle-consul"
   target                = "${google_compute_target_pool.default.self_link}"

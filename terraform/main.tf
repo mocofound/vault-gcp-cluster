@@ -229,12 +229,18 @@ resource "google_compute_firewall" "allow_inbound_health_check" {
 # Load Balancer
 resource "google_compute_forwarding_rule" "default" {
   project               = "${var.gcp_project}"
-  name = "fwd-rle"
+  name = "fwd-rle-vault"
   target                = "${google_compute_target_pool.default.self_link}"
   load_balancing_scheme = "EXTERNAL"
   port_range            = "8200"
 }
-
+resource "google_compute_forwarding_rule" "default" {
+  project               = "${var.gcp_project}"
+  name = "fwd-rle-consul"
+  target                = "${google_compute_target_pool.default.self_link}"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "8500"
+}
 resource "google_compute_target_pool" "default" {
   project          = "${var.gcp_project}"
   name             = "lbvaulttargetpool"
@@ -259,7 +265,7 @@ resource "google_compute_firewall" "default-lb-fw" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8200"]
+    ports    = ["8200","8500"]
   }
 
   source_ranges = ["0.0.0.0/0"]

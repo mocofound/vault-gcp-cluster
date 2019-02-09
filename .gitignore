@@ -4,3 +4,4 @@ terraform.tfstate*
 .terraform*
 .DS_Store
 packer/.DS_Store
+packer/vars.json

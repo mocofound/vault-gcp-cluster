@@ -5,7 +5,7 @@
 
 variable "gcp_region" {
   description = "All GCP resources will be launched in this Region."
-  default     = "us-west1"
+  default     = "us-east1"
 }
 
 variable "gcp_credentials" {

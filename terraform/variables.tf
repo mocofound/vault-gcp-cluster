@@ -34,7 +34,7 @@ variable "machine_type" {
 
 variable "cluster_size" {
   description = "The number of nodes to have in the Vault cluster. We strongly recommended that you use either 3 or 5."
-  default     = "3"
+  default     = "2"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

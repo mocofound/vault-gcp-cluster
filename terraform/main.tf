@@ -1,3 +1,9 @@
+resource "null_resource" "rerun" {
+    triggers {
+      rerun = "${uuid()}"
+    }
+}
+
 #
 # Adapted from https://github.com/hashicorp/terraform-google-vault/blob/master/modules/vault-cluster/main.tf
 #
